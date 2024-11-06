@@ -25,31 +25,35 @@ const DetailsScreen = () => {
 	return (
 		<div>
 			<Header />
-			{isLoadingMovie && <p>Loading...</p>}
-			{errorMessageMovie && !isLoadingMovie && <p>{errorMessageMovie}</p>}
-			{movie && !isLoadingMovie && <MovieDetails movie={movie} />}
-			{isLoadingRelatedMovies && <p>Loading...</p>}
-			{errorMessageRelatedMovies && !isLoadingRelatedMovies && (
-				<p>{errorMessageRelatedMovies}</p>
-			)}
-			{relatedMovies && !isLoadingRelatedMovies && (
-				<RelatedMovies
-					relatedMovies={relatedMovies}
-					isLoadingRelatedMovies={isLoadingRelatedMovies}
-					errorMessageRelatedMovies={errorMessageRelatedMovies}
-				/>
-			)}
-			{isLoadingMovieReviews && <p>Loading...</p>}
-			{errorMessageMovieReviews && !isLoadingMovieReviews && (
-				<p>{errorMessageMovieReviews}</p>
-			)}
-			{movieReviews && !isLoadingMovieReviews && (
-				<Reviews
-					reviews={movieReviews}
-					isLoadingMovieReviews={isLoadingMovieReviews}
-					errorMessageMovieReviews={errorMessageMovieReviews}
-				/>
-			)}
+			<main>
+				{isLoadingMovie && <p>Loading...</p>}
+				{errorMessageMovie && !isLoadingMovie && (
+					<p>{errorMessageMovie}</p>
+				)}
+				{movie && !isLoadingMovie && <MovieDetails movie={movie} />}
+				{isLoadingRelatedMovies && <p>Loading...</p>}
+				{errorMessageRelatedMovies && !isLoadingRelatedMovies && (
+					<p>{errorMessageRelatedMovies}</p>
+				)}
+				{relatedMovies && !isLoadingRelatedMovies && (
+					<RelatedMovies
+						relatedMovies={relatedMovies}
+						isLoadingRelatedMovies={isLoadingRelatedMovies}
+						errorMessageRelatedMovies={errorMessageRelatedMovies}
+					/>
+				)}
+				{isLoadingMovieReviews && <p>Loading...</p>}
+				{errorMessageMovieReviews && !isLoadingMovieReviews && (
+					<p>{errorMessageMovieReviews}</p>
+				)}
+				{movieReviews && !isLoadingMovieReviews && (
+					<Reviews
+						reviews={movieReviews}
+						isLoadingMovieReviews={isLoadingMovieReviews}
+						errorMessageMovieReviews={errorMessageMovieReviews}
+					/>
+				)}
+			</main>
 			<Footer />
 		</div>
 	);

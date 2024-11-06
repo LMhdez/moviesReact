@@ -18,6 +18,7 @@ const HomeScreen = () => {
 	return (
 		<div>
 			<Header />
+			<main>
 			{isLoadingHeadline && <p>Loading...</p>}
 			{errorMessageHeadline && !isLoadingHeadline && (
 				<p>{errorMessageHeadline}</p>
@@ -29,6 +30,7 @@ const HomeScreen = () => {
 				<p>{errorMessageGeneralReviews}</p>
 			)}
 			{generalReviews && !isLoadingGeneralReviews && <Reviews reviews={generalReviews} />}
+			</main>
 			<Footer />
 		</div>
 	);

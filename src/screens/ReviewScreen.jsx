@@ -14,14 +14,16 @@ const ReviewScreen = () => {
 	return (
 		<div>
 			<Header />
-			<ReviewForm />
-			{isLoadingGeneralReviews && <p>Loading...</p>}
-			{errorMessageGeneralReviews && !isLoadingGeneralReviews && (
-				<p>{errorMessageGeneralReviews}</p>
-			)}
-			{generalReviews && !isLoadingGeneralReviews && (
-				<Reviews reviews={generalReviews} />
-			)}
+			<main>
+				<ReviewForm />
+				{isLoadingGeneralReviews && <p>Loading...</p>}
+				{errorMessageGeneralReviews && !isLoadingGeneralReviews && (
+					<p>{errorMessageGeneralReviews}</p>
+				)}
+				{generalReviews && !isLoadingGeneralReviews && (
+					<Reviews reviews={generalReviews} />
+				)}
+			</main>
 			<Footer />
 		</div>
 	);
