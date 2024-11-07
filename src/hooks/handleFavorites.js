@@ -32,8 +32,6 @@ const isFavorite = (movieId) => {
 	return favorites.indexOf(movieId) > -1;
 };
 
-const getFavorites = () => {
-	return JSON.parse(sessionStorage.getItem("favorites")) || [];
-}
 
-export { addFavorite, removeFavorite, isFavorite, getFavorites };
+
+export { addFavorite, removeFavorite, isFavorite};
