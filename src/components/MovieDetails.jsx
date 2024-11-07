@@ -40,8 +40,10 @@ const MovieDetails = ({ movie }) => {
 					</button>
 				</div>
 
-				<p className="my-4 h-12 flex items-center justify-center">{movie.summary}</p>
-				
+				<p className="my-4 h-12 flex items-center justify-center">
+					{movie.summary}
+				</p>
+
 				<div className="mb-4">
 					<p>
 						<b>Year:</b> {movie.year}
