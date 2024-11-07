@@ -9,7 +9,7 @@ const Header = () => {
 				className=" bg-slate-900 text-neutral-200 py-8
             "
 			>
-				<div className="mx-8 flex align-middle justify-between items-center flex-col md:flex-row">
+				<nav className="mx-8 flex align-middle justify-between items-center flex-col md:flex-row">
 					<h1 className="font-bold text-xl">
 						<NavLink to={"/"}>_underline</NavLink>
 					</h1>
@@ -24,7 +24,7 @@ const Header = () => {
 							<NavLink to={"/reviews"}>Reviews</NavLink>
 						</li>
 					</ul>
-				</div>
+				</nav>
 			</header>
 		</>
 	);

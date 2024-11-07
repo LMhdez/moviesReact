@@ -4,7 +4,7 @@ const Footer = () => {
 	return (
 		<>
 			<footer className=" bg-slate-900 text-neutral-200 py-6">
-				<div className="mx-8 flex align-middle justify-between items-center">
+				<nav className="mx-8 flex align-middle justify-between items-center">
 					<ul className="flex flex-wrap items-center justify-center text-xs  gap-8 flex-col sm:flex-row ">
 						<li>
 							<NavLink to={"/movies"}>Movies</NavLink>
@@ -21,7 +21,7 @@ const Footer = () => {
 					<h1 className="font-bold text-xl">_underline</h1></NavLink>
 						
 				
-				</div>
+				</nav>
 				<p className="text-xs m-8">
 					2024 Underline, Inc. All Rights Reserved
 				</p>
