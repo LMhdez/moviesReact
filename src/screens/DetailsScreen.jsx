@@ -30,17 +30,14 @@ const DetailsScreen = () => {
 				{isLoadingMovie && <p>Loading...</p>}
 				{errorMessageMovie && !isLoadingMovie && (
 					<div className="flex flex-grow items-center justify-center text-center flex-col gap-3">
-					<h2 className="text-2xl font-semibold text-center">
-						{errorMessageMovie}
-					</h2>
-					<button className="p-3 bg-orange-500 text-white rounded-md shadow-md hover:bg-orange-600 focus:ring-2 focus:ring-orange-500">
-					<Link
-						to="/"
-						className=""
-					>
-						Back to Home Page
-					</Link>
-					</button>
+						<h2 className="text-2xl font-semibold text-center">
+							{errorMessageMovie}
+						</h2>
+						<Link to="/" className="">
+							<button className="p-3 bg-orange-500 text-white rounded-md shadow-md hover:bg-orange-600 focus:ring-2 focus:ring-orange-500">
+								Back to Home Page
+							</button>
+						</Link>
 					</div>
 				)}
 				{movie && !isLoadingMovie && <MovieDetails movie={movie} />}

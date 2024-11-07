@@ -16,14 +16,16 @@ const HeroBanner = ({ headline }) => {
 					<p className="text-sm sm:text-base md:text-lg lg:text-xl text-center">
 						{headline.description}
 					</p>
-					<button className="bg-orange-400 p-2 rounded hover:bg-orange-500 transition w-full md:w-auto self-center">
-						<Link
+					<Link
 							to={`movies/${headline.id}`}
-							className="text-white font-semibold"
+							className="text-white font-semibold self-center"
 						>
+					<button className="bg-orange-400 p-2 rounded hover:bg-orange-500 transition w-full md:w-auto ">
+						
 							View Details
-						</Link>
 					</button>
+					</Link>
+
 				</div>
 			</div>
 		</>
