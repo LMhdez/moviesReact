@@ -4,7 +4,7 @@ import MovieDetails from "../components/MovieDetails";
 import RelatedMovies from "../components/RelatedMovies";
 import Reviews from "../components/Reviews";
 import useFetch from "../hooks/useFetch";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const DetailsScreen = () => {
 	const id = useParams().id;
@@ -22,20 +22,34 @@ const DetailsScreen = () => {
 			"https://moviesfunctionapp.azurewebsites.net/api/GetReviews?id=" +
 				id
 		);
+
 	return (
-		<div>
+		<div className="flex flex-col min-h-screen">
 			<Header />
-			<main>
+			<main className="flex-grow flex flex-col justify-center">
 				{isLoadingMovie && <p>Loading...</p>}
 				{errorMessageMovie && !isLoadingMovie && (
-					<p>{errorMessageMovie}</p>
+					<div className="flex flex-grow items-center justify-center text-center flex-col gap-3">
+					<h2 className="text-2xl font-semibold text-center">
+						{errorMessageMovie}
+					</h2>
+					<button className="p-3 bg-orange-500 text-white rounded-md shadow-md hover:bg-orange-600 focus:ring-2 focus:ring-orange-500">
+					<Link
+						to="/"
+						className=""
+					>
+						Back to Home Page
+					</Link>
+					</button>
+					</div>
 				)}
 				{movie && !isLoadingMovie && <MovieDetails movie={movie} />}
+
 				{isLoadingRelatedMovies && <p>Loading...</p>}
 				{errorMessageRelatedMovies && !isLoadingRelatedMovies && (
 					<p>{errorMessageRelatedMovies}</p>
 				)}
-				{relatedMovies && !isLoadingRelatedMovies && (
+				{relatedMovies && !isLoadingRelatedMovies && movie && (
 					<RelatedMovies
 						relatedMovies={relatedMovies}
 						isLoadingRelatedMovies={isLoadingRelatedMovies}
@@ -46,7 +60,7 @@ const DetailsScreen = () => {
 				{errorMessageMovieReviews && !isLoadingMovieReviews && (
 					<p>{errorMessageMovieReviews}</p>
 				)}
-				{movieReviews && !isLoadingMovieReviews && (
+				{movieReviews && !isLoadingMovieReviews && movie && (
 					<Reviews
 						reviews={movieReviews}
 						isLoadingMovieReviews={isLoadingMovieReviews}

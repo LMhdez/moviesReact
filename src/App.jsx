@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import  HomeScreen  from "./screens/HomeScreen";
-import  DetailsScreen  from "./screens/DetailsScreen";
-import MoviesScreen  from "./screens/MoviesScreen";
-import  ReviewScreen  from "./screens/ReviewScreen";
-import WishListScreen  from "./screens/WishListScreen";
+import HomeScreen from "./screens/HomeScreen";
+import DetailsScreen from "./screens/DetailsScreen";
+import MoviesScreen from "./screens/MoviesScreen";
+import ReviewScreen from "./screens/ReviewScreen";
+import WishListScreen from "./screens/WishListScreen";
+import PageNotFound from "./screens/PageNotFound";
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 					<Route path="/movies/:id" element={<DetailsScreen />} />
 					<Route path="/reviews" element={<ReviewScreen />} />
 					<Route path="/wish-list" element={<WishListScreen />} />
+					<Route path="*" element={<PageNotFound />} />
 				</Routes>
 			</BrowserRouter>
 		</>

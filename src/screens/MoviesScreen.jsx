@@ -62,7 +62,7 @@ const MoviesScreen = () => {
 			<Header />
 
 			<main className="flex flex-col md:flex-row flex-grow">
-				<aside className="md:w-1/4 p-4 bg-gray-100 rounded shadow sticky top-0 md:h-full mb-4 md:mb-0">
+				<aside className="md:w-1/4 p-4 bg-gray-100 rounded shadow static md:sticky top-0 md:h-full mb-4 md:mb-0">
 					{genresLoading && <p>Carregando gêneros...</p>}
 					{genresError && (
 						<p>Erro ao carregar gêneros: {genresError}</p>

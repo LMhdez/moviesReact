@@ -14,6 +14,7 @@ const useFetch = (url) => {
 				setIsLoading(false);
 			});
 	}, [url]);
+
 	return [data, isLoading, errorMessage];
 };
 export default useFetch;
