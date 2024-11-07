@@ -1,5 +1,5 @@
 import useFetch from "../hooks/useFetch";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const ReviewForm = () => {
 	const [movies, moviesLoading, moviesError] = useFetch(
@@ -25,12 +25,11 @@ const ReviewForm = () => {
 	};
 
 	const handleSubmit = async (event) => {
-        
 		event.preventDefault();
 
-		
 		const dataToSubmit = {
-			...formData, movie: selectedMovie, 
+			...formData,
+			movie: selectedMovie,
 		};
 
 		try {
@@ -50,7 +49,7 @@ const ReviewForm = () => {
 					type: "success",
 					text: "Review submitted successfully!",
 				});
-				// Reset the form after success
+
 				setFormData({
 					title: "",
 					text: "",
@@ -70,92 +69,145 @@ const ReviewForm = () => {
 		}
 	};
 
-	return (
-		<div>
-			<form onSubmit={handleSubmit}>
-				<label>
-					Title:
-					<input
-						type="text"
-						name="title"
-						placeholder="Enter the title of your review"
-						value={formData.title}
-						onChange={handleChange}
-						required
-					/>
-				</label>
-				<label>
-					Text:
-					<textarea
-						name="text"
-						placeholder="Write your review here"
-						value={formData.text}
-						onChange={handleChange}
-						required
-					/>
-				</label>
-				<label>
-					<MovieOptions
-						movies={movies}
-						moviesError={moviesError}
-						moviesLoading={moviesLoading}
-						selectedMovie={selectedMovie}
-						setSelectedMovie={setSelectedMovie}
-					/>
-				</label>
-				<label>
-					Rating (1 to 5):
-					<input
-						type="number"
-						name="rating"
-						min="1"
-						max="5"
-						value={formData.rating}
-						onChange={handleChange}
-						required
-					/>
-				</label>
-				<label>
-					First Name:
-					<input
-						type="text"
-						name="firstName"
-						placeholder="Enter your first name"
-						value={formData.firstName}
-						onChange={handleChange}
-						required
-					/>
-				</label>
-				<label>
-					Last Name:
-					<input
-						type="text"
-						name="lastName"
-						placeholder="Enter your last name"
-						value={formData.lastName}
-						onChange={handleChange}
-						required
-					/>
-				</label>
-				<label>
-					Email:
-					<input
-						type="email"
-						name="email"
-						placeholder="Enter your email"
-						value={formData.email}
-						onChange={handleChange}
-						required
-					/>
-				</label>
-				<button type="submit">Submit Review</button>
-			</form>
+	useEffect(() => {
+		if (message) {
+			const timer = setTimeout(() => {
+				setMessage(null);
+			}, 2500);
 
-			{message && (
-				<div>
-					{message.text}
-				</div>
-			)}
+			return () => clearTimeout(timer);
+		}
+	}, [message]);
+
+	return (
+		<div className="flex flex-col items-center p-4">
+			<div className="w-full max-w-lg">
+				<h2 className="text-2xl font-semibold text-center mb-6">
+					Submit Review
+				</h2>
+				<form className="space-y-6" onSubmit={handleSubmit}>
+					<div>
+						<label className="block text-lg font-semibold">
+							Title:
+						</label>
+						<input
+							type="text"
+							name="title"
+							placeholder="Enter the title of your review"
+							value={formData.title}
+							onChange={handleChange}
+							required
+							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
+						/>
+					</div>
+
+					<div>
+						<label className="block text-lg font-semibold">
+							Text:
+						</label>
+						<textarea
+							name="text"
+							placeholder="Write your review here"
+							value={formData.text}
+							onChange={handleChange}
+							required
+							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
+						/>
+					</div>
+
+					<div>
+						<MovieOptions
+							movies={movies}
+							moviesError={moviesError}
+							moviesLoading={moviesLoading}
+							selectedMovie={selectedMovie}
+							setSelectedMovie={setSelectedMovie}
+						/>
+					</div>
+
+					<div>
+						<label className="block text-lg font-semibold">
+							Rating (1 to 5):
+						</label>
+						<input
+							type="number"
+							name="rating"
+							min="1"
+							max="5"
+							value={formData.rating}
+							onChange={handleChange}
+							required
+							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
+						/>
+					</div>
+
+					<div>
+						<label className="block text-lg font-semibold">
+							First Name:
+						</label>
+						<input
+							type="text"
+							name="firstName"
+							placeholder="Enter your first name"
+							value={formData.firstName}
+							onChange={handleChange}
+							required
+							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
+						/>
+					</div>
+
+					<div>
+						<label className="block text-lg font-semibold">
+							Last Name:
+						</label>
+						<input
+							type="text"
+							name="lastName"
+							placeholder="Enter your last name"
+							value={formData.lastName}
+							onChange={handleChange}
+							required
+							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
+						/>
+					</div>
+
+					<div>
+						<label className="block text-lg font-semibold">
+							Email:
+						</label>
+						<input
+							type="email"
+							name="email"
+							placeholder="Enter your email"
+							value={formData.email}
+							onChange={handleChange}
+							required
+							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
+						/>
+					</div>
+
+					<div>
+						<button
+							type="submit"
+							className="w-full p-3 bg-orange-500 text-white rounded-md shadow-md hover:bg-orange-600 focus:ring-2 focus:ring-orange-500"
+						>
+							Submit Review
+						</button>
+					</div>
+				</form>
+
+				{message && (
+					<div
+						className={`mt-6 text-center p-4 rounded-md ${
+							message.type === "success" ?
+								"bg-green-500 text-white"
+							:	"bg-red-500 text-white"
+						}`}
+					>
+						{message.text}
+					</div>
+				)}
+			</div>
 		</div>
 	);
 };
@@ -168,24 +220,28 @@ const MovieOptions = ({
 	setSelectedMovie,
 }) => {
 	return (
-		<select
-			value={selectedMovie}
-			onChange={(event) => setSelectedMovie(event.target.value)}
-			required
-		>
-			<option value="" disabled>
-				Please select a movie
-			</option>
-			{moviesLoading && <option value="">Loading...</option>}
-			{moviesError && <option value="">Error: {moviesError}</option>}
-			{movies &&
-				!moviesLoading &&
-				movies.map((movie) => (
-					<option key={movie.id} value={movie.title}>
-						{movie.title}
-					</option>
-				))}
-		</select>
+		<div>
+			<label className="block text-lg font-semibold">Movie:</label>
+			<select
+				value={selectedMovie}
+				onChange={(event) => setSelectedMovie(event.target.value)}
+				required
+				className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
+			>
+				<option value="" disabled>
+					Please select a movie
+				</option>
+				{moviesLoading && <option value="">Loading...</option>}
+				{moviesError && <option value="">Error: {moviesError}</option>}
+				{movies &&
+					!moviesLoading &&
+					movies.map((movie) => (
+						<option key={movie.id} value={movie.title}>
+							{movie.title}
+						</option>
+					))}
+			</select>
+		</div>
 	);
 };
 

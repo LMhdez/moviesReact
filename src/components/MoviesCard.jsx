@@ -25,15 +25,14 @@ const MoviesCard = ({ movie }) => {
 	};
 
 	return (
-		<div className="w-72 bg-gray-100 rounded-lg overflow-hidden shadow-lg flex flex-col">
+		<div className="w-64 bg-gray-100 rounded-lg overflow-hidden shadow-lg flex flex-col"> 
 			<Link to={"/movies/" + movie.id}>
 				<img
 					src={movie.posterUrl}
 					alt={movie.title}
-					className="w-full h-96 object-cover"
+					className="w-full h-80 object-cover" 
 				/>
-				<div className="p-4">
-					{/* Favorite button positioned in the top-right corner */}
+				<div className="p-3"> 
 					<div className="flex justify-end m-2">
 						<button
 							type="button"
@@ -43,10 +42,9 @@ const MoviesCard = ({ movie }) => {
 							<Heart color={color} />
 						</button>
 					</div>
-					{/* Genres and title */}
 					<div className="mt-2 text-gray-800">
 						<p className="text-sm text-gray-600">{movie.genres}</p>
-						<h2 className="text-lg font-semibold mt-1">
+						<h2 className="text-base font-semibold mt-1"> 
 							{movie.title}
 						</h2>
 					</div>

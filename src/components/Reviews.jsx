@@ -4,7 +4,7 @@ import ReviewsCard from "./ReviewsCard";
 const Reviews = ({ reviews }) => {
   return (
     <>
-      <div className="mx-8 mt-8">
+      <div className="mx-12 mt-8">
         <h2 className="font-black ">Last Reviews</h2>
         {reviews && reviews.length > 0 && (
           <ul className="flex flex-row flex-wrap justify-center sm:justify-start items-start">
@@ -15,7 +15,7 @@ const Reviews = ({ reviews }) => {
             ))}
           </ul>
         )}
-        {reviews && reviews.length === 0 && <p>No reviews available.</p>}
+        {reviews && reviews.length === 0 && <p className="text-center text-lg mb-4">No reviews available.</p>}
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 const ReviewsCard = ({ review }) => {
 	return (
-		<div className="flex flex-col p-8">
+		<div className="flex flex-col m-8">
 			<div className="flex flex-row justify-between font-semibold align-middle">
 			<h3>{review.title}</h3>
 			<div className="bg-yellow-200 p-1">

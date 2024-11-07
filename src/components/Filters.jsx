@@ -10,7 +10,7 @@ const Filters = ({
         <ul className="mt-2">
           {genres.map((genre, index) => (
             <li key={index} className="">
-              <label className="flex justify-between">
+              <label className="flex justify-between flex-row">
                 {genre}
 					  <input
 						  className=""
