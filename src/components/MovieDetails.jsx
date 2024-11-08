@@ -1,4 +1,4 @@
-import Heart from "../../public/svgs/heart";
+import Heart from "../../svgs/heart";
 import { useState } from "react";
 import {
 	addFavorite,
