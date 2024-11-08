@@ -6,6 +6,10 @@ import Reviews from "../components/Reviews";
 import useFetch from "../hooks/useFetch";
 
 const ReviewScreen = () => {
+	const [movies, moviesLoading, moviesError] = useFetch(
+		"https://moviesfunctionapp.azurewebsites.net/api/GetMovies?sortBy=name"
+	);
+
 	const [
 		generalReviews,
 		isLoadingGeneralReviews,
@@ -15,7 +19,11 @@ const ReviewScreen = () => {
 		<div>
 			<Header />
 			<main>
-				<ReviewForm />
+				<ReviewForm
+					movies={movies}
+					moviesLoading={moviesLoading}
+					moviesError={moviesError}
+				/>
 				{isLoadingGeneralReviews && <p>Loading...</p>}
 				{errorMessageGeneralReviews && !isLoadingGeneralReviews && (
 					<p>{errorMessageGeneralReviews}</p>

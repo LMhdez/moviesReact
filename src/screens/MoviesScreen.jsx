@@ -64,9 +64,7 @@ const MoviesScreen = () => {
 			<main className="flex flex-col md:flex-row flex-grow">
 				<aside className="md:w-1/4 p-4 bg-gray-100 rounded shadow static md:sticky top-0 md:h-full mb-4 md:mb-0">
 					{genresLoading && <p>Genres Loading...</p>}
-					{genresError && (
-						<p>{genresError}</p>
-					)}
+					{genresError && <p>{genresError}</p>}
 					{genres && !genresLoading && (
 						<Filters
 							genres={genres}
@@ -80,9 +78,7 @@ const MoviesScreen = () => {
 
 				<div className="md:w-3/4 p-4">
 					{moviesLoading && <p>Movies Loading...</p>}
-					{moviesError && (
-						<p>{moviesError}</p>
-					)}
+					{moviesError && <p>{moviesError}</p>}
 					{movies && !moviesLoading && (
 						<>
 							<div className="flex flex-row justify-between items-center mb-4">

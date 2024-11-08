@@ -1,11 +1,6 @@
-import useFetch from "../hooks/useFetch";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-const ReviewForm = () => {
-	const [movies, moviesLoading, moviesError] = useFetch(
-		"https://moviesfunctionapp.azurewebsites.net/api/GetMovies?sortBy=name"
-	);
-
+const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 	const [selectedMovie, setSelectedMovie] = useState("");
 
 	const [formData, setFormData] = useState({
@@ -17,9 +12,11 @@ const ReviewForm = () => {
 		email: "",
 	});
 
-	
-
 	const [message, setMessage] = useState(null);
+	
+	// Referências para os campos "email" e "title"
+	const emailInputRef = useRef(null);
+	const titleInputRef = useRef(null);
 
 	const handleChange = (event) => {
 		const { name, value } = event.target;
@@ -28,11 +25,22 @@ const ReviewForm = () => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		const regex = /^[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/;
 
 		const dataToSubmit = {
 			...formData,
 			movie: selectedMovie,
 		};
+
+		if (!regex.test(formData.email)) {
+			// Exibe mensagem de erro e foca no campo de email
+			setMessage({
+				type: "error",
+				text: "Invalid email format. Please enter a valid email.",
+			});
+			emailInputRef.current.focus();
+			return;
+		}
 
 		try {
 			const response = await fetch(
@@ -47,11 +55,13 @@ const ReviewForm = () => {
 			);
 
 			if (response.ok) {
+				// Exibe mensagem de sucesso
 				setMessage({
 					type: "success",
 					text: "Review submitted successfully!",
 				});
 
+				// Limpa o formulário
 				setFormData({
 					title: "",
 					text: "",
@@ -71,10 +81,12 @@ const ReviewForm = () => {
 		}
 	};
 
+	// Quando a mensagem desaparece, foca no campo "Title" se a submissão foi bem-sucedida
 	useEffect(() => {
-		if (message) {
+		if (message && message.type === "success") {
 			const timer = setTimeout(() => {
 				setMessage(null);
+				titleInputRef.current.focus(); // Foca no título após a mensagem desaparecer
 			}, 2500);
 
 			return () => clearTimeout(timer);
@@ -99,6 +111,7 @@ const ReviewForm = () => {
 							value={formData.title}
 							onChange={handleChange}
 							required
+							ref={titleInputRef} // Referência ao título
 							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
 						/>
 					</div>
@@ -184,6 +197,7 @@ const ReviewForm = () => {
 							value={formData.email}
 							onChange={handleChange}
 							required
+							ref={emailInputRef} // Referência ao email
 							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
 						/>
 					</div>
@@ -200,11 +214,7 @@ const ReviewForm = () => {
 
 				{message && (
 					<div
-						className={`mt-6 text-center p-4 rounded-md ${
-							message.type === "success" ?
-								"bg-green-500 text-white"
-							:	"bg-red-500 text-white"
-						}`}
+						className={`mt-6 text-center p-4 rounded-md ${message.type === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}
 					>
 						{message.text}
 					</div>
