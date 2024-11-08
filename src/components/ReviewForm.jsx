@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const ReviewForm = () => {
 	const [movies, moviesLoading, moviesError] = useFetch(
-		"https://moviesfunctionapp.azurewebsites.net/api/GetMovies"
+		"https://moviesfunctionapp.azurewebsites.net/api/GetMovies?sortBy=name"
 	);
 
 	const [selectedMovie, setSelectedMovie] = useState("");
@@ -16,6 +16,8 @@ const ReviewForm = () => {
 		lastName: "",
 		email: "",
 	});
+
+	
 
 	const [message, setMessage] = useState(null);
 

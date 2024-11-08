@@ -5,7 +5,7 @@ import {
 	isFavorite,
 } from "../hooks/handleFavorites";
 
-import Heart from "../../public/svgs/heart";
+import Heart from "../assets/Heart";
 
 import { Link } from "react-router-dom";
 

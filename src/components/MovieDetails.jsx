@@ -1,4 +1,4 @@
-import Heart from "../../svgs/heart";
+import Heart from "../assets/Heart";
 import { useState } from "react";
 import {
 	addFavorite,
@@ -34,7 +34,7 @@ const MovieDetails = ({ movie }) => {
 					<button
 						type="button"
 						onClick={handleFavorite}
-						className="ml-4"
+						className="ml-4 size-8"
 					>
 						<Heart color={color} />
 					</button>

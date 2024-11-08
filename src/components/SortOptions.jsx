@@ -7,7 +7,7 @@ const SortOptions = ({ sortBy, handleSortChange }) => {
 		>
 			<option value="relevance">Relevance</option>
 			<option value="releaseDate">Release Date</option>
-			<option value="rating">Rating</option>
+			<option value="name">Name</option>
 		</select>
 	);
 };
