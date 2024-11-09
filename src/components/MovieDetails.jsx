@@ -22,13 +22,13 @@ const MovieDetails = ({ movie }) => {
 	};
 
 	return (
-		<div className="flex md:flex-row flex-col px-12 my-8">
+		<div className="flex md:flex-row flex-col px-12 my-8 ">
 			<img
 				src={movie.posterUrl}
 				alt={movie.title}
-				className="m-4 rounded-md ml-0 w-[200px] h-[300px]"
+				className="m-4 rounded-md  w-[200px] h-[300px] sm:ml-0"
 			/>
-			<div className="my-8 mx-4 md:mx-0">
+			<div className="my-8 mx-4 md:mx-0 flex flex-col sm:flex-col gap-8 sm:gap-4">
 				<div className="flex items-center mb-4">
 					<h2 className="text-2xl font-bold">{movie.title}</h2>
 					<button
