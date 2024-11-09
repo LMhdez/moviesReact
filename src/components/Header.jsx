@@ -4,7 +4,7 @@ const Header = () => {
 	return (
 		<header className="bg-slate-900 text-neutral-200 py-8">
 			<nav className="mx-8 flex align-middle justify-between items-center flex-col md:flex-row">
-				<h1 className="font-bold text-xl">
+				<h1 className="font-bold text-xl my-4 sm:my-0">
 					<NavLink
 						to="/"
 						className={({ isActive }) =>
