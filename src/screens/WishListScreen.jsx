@@ -20,11 +20,7 @@ const WishListScreen = () => {
 							Wish List
 						</h2>
 
-						<WishList
-							movies={movies}
-							moviesLoading={moviesLoading}
-							moviesError={moviesError}
-						/>
+						<WishList movies={movies} />
 					</>
 				)}
 			</main>

@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import MoviesCard from "./MoviesCard";
 
+
 const RelatedMovies = ({ relatedMovies }) => {
+	
 	return (
 		<>
 			<div className="px-12 w-full">

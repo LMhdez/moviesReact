@@ -4,10 +4,18 @@ import MovieDetails from "../components/MovieDetails";
 import RelatedMovies from "../components/RelatedMovies";
 import Reviews from "../components/Reviews";
 import useFetch from "../hooks/useFetch";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const DetailsScreen = () => {
+
 	const id = useParams().id;
+
+	const location = useLocation();
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [location]);
 
 	const [movie, isLoadingMovie, errorMessageMovie] = useFetch(
 		"https://moviesfunctionapp.azurewebsites.net/api/GetMovies?id=" + id
@@ -47,23 +55,21 @@ const DetailsScreen = () => {
 					<p>{errorMessageRelatedMovies}</p>
 				)}
 				{relatedMovies && !isLoadingRelatedMovies && movie && (
-					<RelatedMovies
-						relatedMovies={relatedMovies}
-						isLoadingRelatedMovies={isLoadingRelatedMovies}
-						errorMessageRelatedMovies={errorMessageRelatedMovies}
-					/>
+					<RelatedMovies relatedMovies={relatedMovies} />
 				)}
 				{isLoadingMovieReviews && <p>Loading...</p>}
 				{errorMessageMovieReviews && !isLoadingMovieReviews && (
 					<p>{errorMessageMovieReviews}</p>
 				)}
-				{movieReviews && !isLoadingMovieReviews && movie && (
-					<Reviews
-						reviews={movieReviews}
-						isLoadingMovieReviews={isLoadingMovieReviews}
-						errorMessageMovieReviews={errorMessageMovieReviews}
-					/>
+				{!isLoadingMovieReviews && movieReviews.length === 0 && (
+					<span className="w-full h-4">
+						
+					</span> 
 				)}
+				{movieReviews &&
+					movieReviews.length > 0 &&
+					!isLoadingMovieReviews &&
+					movie && <Reviews reviews={movieReviews} />}
 			</main>
 			<Footer />
 		</div>
