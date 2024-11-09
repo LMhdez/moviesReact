@@ -44,7 +44,7 @@ const MovieDetails = ({ movie }) => {
 					{movie.summary}
 				</p>
 
-				<div className="mb-4">
+				<div className="my-4 sm:mt-0">
 					<p>
 						<b>Year:</b> {movie.year}
 					</p>
