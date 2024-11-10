@@ -4,7 +4,7 @@ import {
 	addFavorite,
 	removeFavorite,
 	isFavorite,
-} from "../hooks/handleFavorites";
+} from "../functions/handleFavorites";
 
 const MovieDetails = ({ movie }) => {
 	const [color, setColor] = useState(
