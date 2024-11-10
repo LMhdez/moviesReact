@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
 const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
-	const [selectedMovie, setSelectedMovie] = useState("");
 
 	const [formData, setFormData] = useState({
 		title: "",
@@ -10,11 +9,11 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 		firstName: "",
 		lastName: "",
 		email: "",
+		movie:""
 	});
 
 	const [message, setMessage] = useState(null);
 	
-	// Referências para os campos "email" e "title"
 	const emailInputRef = useRef(null);
 	const titleInputRef = useRef(null);
 
@@ -27,13 +26,9 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 		event.preventDefault();
 		const regex = /^[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/;
 
-		const dataToSubmit = {
-			...formData,
-			movie: selectedMovie,
-		};
+		
 
 		if (!regex.test(formData.email)) {
-			// Exibe mensagem de erro e foca no campo de email
 			setMessage({
 				type: "error",
 				text: "Invalid email format. Please enter a valid email.",
@@ -50,18 +45,16 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(dataToSubmit),
+					body: JSON.stringify(formData),
 				}
 			);
 
 			if (response.ok) {
-				// Exibe mensagem de sucesso
 				setMessage({
 					type: "success",
 					text: "Review submitted successfully!",
 				});
 
-				// Limpa o formulário
 				setFormData({
 					title: "",
 					text: "",
@@ -69,8 +62,8 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 					firstName: "",
 					lastName: "",
 					email: "",
+					movie: "",
 				});
-				setSelectedMovie("");
 			} else {
 				throw new Error(
 					"Error submitting the review. Please try again later."
@@ -81,12 +74,11 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 		}
 	};
 
-	// Quando a mensagem desaparece, foca no campo "Title" se a submissão foi bem-sucedida
 	useEffect(() => {
 		if (message && message.type === "success") {
 			const timer = setTimeout(() => {
 				setMessage(null);
-				titleInputRef.current.focus(); // Foca no título após a mensagem desaparecer
+				titleInputRef.current.focus(); 
 			}, 2500);
 
 			return () => clearTimeout(timer);
@@ -111,7 +103,7 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 							value={formData.title}
 							onChange={handleChange}
 							required
-							ref={titleInputRef} // Referência ao título
+							ref={titleInputRef} 
 							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
 						/>
 					</div>
@@ -135,8 +127,8 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 							movies={movies}
 							moviesError={moviesError}
 							moviesLoading={moviesLoading}
-							selectedMovie={selectedMovie}
-							setSelectedMovie={setSelectedMovie}
+							selectedMovie={formData.movie}
+							onChangeMovie={handleChange}
 						/>
 					</div>
 
@@ -197,7 +189,7 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 							value={formData.email}
 							onChange={handleChange}
 							required
-							ref={emailInputRef} // Referência ao email
+							ref={emailInputRef} 
 							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
 						/>
 					</div>
@@ -229,14 +221,15 @@ const MovieOptions = ({
 	moviesError,
 	moviesLoading,
 	selectedMovie,
-	setSelectedMovie,
+	onChangeMovie,
 }) => {
 	return (
 		<div>
 			<label className="block text-lg font-semibold">Movie:</label>
 			<select
 				value={selectedMovie}
-				onChange={(event) => setSelectedMovie(event.target.value)}
+				name="movie"
+				onChange={onChangeMovie}
 				required
 				className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
 			>
