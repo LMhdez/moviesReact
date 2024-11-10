@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
 const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
-
 	const [formData, setFormData] = useState({
 		title: "",
 		text: "",
@@ -9,11 +8,11 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 		firstName: "",
 		lastName: "",
 		email: "",
-		movie:""
+		movie: "",
 	});
 
 	const [message, setMessage] = useState(null);
-	
+
 	const emailInputRef = useRef(null);
 	const titleInputRef = useRef(null);
 
@@ -25,8 +24,6 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const regex = /^[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/;
-
-		
 
 		if (!regex.test(formData.email)) {
 			setMessage({
@@ -78,7 +75,7 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 		if (message && message.type === "success") {
 			const timer = setTimeout(() => {
 				setMessage(null);
-				titleInputRef.current.focus(); 
+				titleInputRef.current.focus();
 			}, 2500);
 
 			return () => clearTimeout(timer);
@@ -103,7 +100,7 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 							value={formData.title}
 							onChange={handleChange}
 							required
-							ref={titleInputRef} 
+							ref={titleInputRef}
 							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
 						/>
 					</div>
@@ -189,7 +186,7 @@ const ReviewForm = ({ movies, moviesLoading, moviesError }) => {
 							value={formData.email}
 							onChange={handleChange}
 							required
-							ref={emailInputRef} 
+							ref={emailInputRef}
 							className="w-full p-3 border border-orange-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500"
 						/>
 					</div>
