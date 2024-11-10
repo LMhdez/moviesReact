@@ -1,5 +1,4 @@
-import useFetch from "../hooks/useFetch";
-import { isFavorite } from "../hooks/handleFavorites";
+import { isFavorite } from "../functions/handleFavorites";
 import MoviesCard from "../components/MoviesCard";
 
 const WishList = ({ movies }) => {

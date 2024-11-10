@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
 import { Link } from "react-router-dom";
 
 const HeroBanner = ({ headline }) => {

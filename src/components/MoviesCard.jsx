@@ -3,7 +3,7 @@ import {
 	addFavorite,
 	removeFavorite,
 	isFavorite,
-} from "../hooks/handleFavorites";
+} from "../functions/handleFavorites";
 
 import Heart from "../assets/Heart";
 
