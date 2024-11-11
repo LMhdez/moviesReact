@@ -1,5 +1,5 @@
 import Heart from "../assets/Heart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	addFavorite,
 	removeFavorite,
@@ -10,6 +10,9 @@ const MovieDetails = ({ movie }) => {
 	const [color, setColor] = useState(
 		movie && isFavorite(movie.id) ? "red" : "black"
 	);
+	useEffect(() => {
+		setColor(isFavorite(movie.id) ? "red" : "black");
+	}, [movie]);
 
 	const handleFavorite = () => {
 		if (isFavorite(movie.id)) {
