@@ -1,4 +1,3 @@
-import useFetch from "../hooks/useFetch";
 import ReviewsCard from "./ReviewsCard";
 
 const Reviews = ({ reviews }) => {
