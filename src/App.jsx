@@ -8,18 +8,16 @@ import PageNotFound from "./screens/PageNotFound";
 
 function App() {
 	return (
-		<>
-			<BrowserRouter>
-				<Routes>
-					<Route path="/" element={<HomeScreen />} />
-					<Route path="/movies" element={<MoviesScreen />} />
-					<Route path="/movies/:id" element={<DetailsScreen />} />
-					<Route path="/reviews" element={<ReviewScreen />} />
-					<Route path="/wish-list" element={<WishListScreen />} />
-					<Route path="*" element={<PageNotFound />} />
-				</Routes>
-			</BrowserRouter>
-		</>
+		<BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+			<Routes>
+				<Route path="/" element={<HomeScreen />} />
+				<Route path="/movies" element={<MoviesScreen />} />
+				<Route path="/movies/:id" element={<DetailsScreen />} />
+				<Route path="/reviews" element={<ReviewScreen />} />
+				<Route path="/wish-list" element={<WishListScreen />} />
+				<Route path="*" element={<PageNotFound />} />
+			</Routes>
+		</BrowserRouter>
 	);
 }
 
