@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <title>_underline</title>
+    <script>
+      const base = "/moviesReact";
+      const current = window.location;
+      const path = current.pathname.startsWith(base)
+        ? current.pathname.slice(base.length)
+        : current.pathname;
+      const route = path || "/";
+      const target = new URL(base + "/", current.origin);
+      target.searchParams.set("gh-pages-route", route);
+      target.searchParams.set("gh-pages-search", current.search);
+      target.searchParams.set("gh-pages-hash", current.hash);
+      window.location.replace(target.toString());
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to the requested page...</p>
+  </body>
+</html>
