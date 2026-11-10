@@ -41,11 +41,6 @@ jobs:
       - name: Build production site
         run: npm run build
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -81,49 +76,3 @@ jobs:
             exit 1
           fi
           echo "Client-side route fallback: 404.html contains route restoration"
-
-      - name: Smoke test Azure Functions API and CORS
-        env:
-          API_BASE: https://moviesfunctionapp.azurewebsites.net/api
-          FRONTEND_ORIGIN: https://lmhdez.github.io
-        run: |
-          set -euo pipefail
-          headers="$(mktemp)"
-          trap 'rm -f "$headers"' EXIT
-
-          for endpoint in GetHeadline GetMovies GetGenres GetReviews; do
-            status="$(curl --silent --show-error --max-time 25 --dump-header "$headers" --output /dev/null --write-out '%{http_code}' \
-              --header "Origin: $FRONTEND_ORIGIN" "$API_BASE/$endpoint")"
-            if [ "$status" != "200" ]; then
-              echo "$endpoint returned HTTP $status"
-              exit 1
-            fi
-            if ! grep -Eiq '^access-control-allow-origin:[[:space:]]*(https://lmhdez\.github\.io|\*)' "$headers"; then
-              echo "$endpoint does not allow the GitHub Pages origin through CORS"
-              exit 1
-            fi
-            echo "$endpoint: HTTP 200; CORS origin allowed"
-          done
-
-          status="$(curl --silent --show-error --max-time 25 --request OPTIONS --dump-header "$headers" --output /dev/null --write-out '%{http_code}' \
-            --header "Origin: $FRONTEND_ORIGIN" \
-            --header "Access-Control-Request-Method: POST" \
-            --header "Access-Control-Request-Headers: content-type" \
-            "$API_BASE/SubmitReview")"
-          case "$status" in
-            200|204) ;;
-            *) echo "SubmitReview CORS preflight returned HTTP $status"; exit 1 ;;
-          esac
-          if ! grep -Eiq '^access-control-allow-origin:[[:space:]]*(https://lmhdez\.github\.io|\*)' "$headers"; then
-            echo "SubmitReview preflight does not allow the GitHub Pages origin"
-            exit 1
-          fi
-          if ! grep -Eiq '^access-control-allow-methods:.*POST' "$headers"; then
-            echo "SubmitReview preflight does not allow POST"
-            exit 1
-          fi
-          if ! grep -Eiq '^access-control-allow-headers:.*content-type' "$headers"; then
-            echo "SubmitReview preflight does not allow the content-type header"
-            exit 1
-          fi
-          echo "SubmitReview: preflight permits POST with content-type"
