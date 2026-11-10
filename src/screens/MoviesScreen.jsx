@@ -1,104 +1,50 @@
+import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import DisplayMovies from "../components/DisplayMovies";
 import Filters from "../components/Filters";
 import SortOptions from "../components/SortOptions";
-
 import useFetch from "../hooks/useFetch";
-import { useState } from "react";
 
 const MoviesScreen = () => {
-	const [selectedGenres, setSelectedGenres] = useState([]);
-	const [sortBy, setSortBy] = useState("relevance");
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [sortBy, setSortBy] = useState("relevance");
+  const resource = `movies?genres=${encodeURIComponent(selectedGenres.join(","))}&sortBy=${encodeURIComponent(sortBy)}`;
+  const [genres, genresLoading, genresError] = useFetch("genres");
+  const [movies, moviesLoading, moviesError] = useFetch(resource);
 
-	const buildMoviesUrl = () => {
-		const baseUrl =
-			"https://moviesfunctionapp.azurewebsites.net/api/GetMovies";
-		let url = baseUrl;
+  const handleGenreChange = (genre) => {
+    setSelectedGenres((current) => current.includes(genre)
+      ? current.filter((item) => item !== genre)
+      : [...current, genre]);
+  };
 
-		if (selectedGenres.length > 0) {
-			const categoriesParam = selectedGenres
-				.map((genre) => `"${genre}"`)
-				.join(",");
-			url += `?category=[${categoriesParam}]`;
-		}
-
-		if (sortBy) {
-			url +=
-				selectedGenres.length > 0 ?
-					`&sortBy=${sortBy}`
-				:	`?sortBy=${sortBy}`;
-		}
-
-		return url;
-	};
-
-	const [genres, genresLoading, genresError] = useFetch(
-		"https://moviesfunctionapp.azurewebsites.net/api/GetGenres"
-	);
-
-	const [movies, moviesLoading, moviesError] = useFetch(buildMoviesUrl());
-
-	const handleGenreChange = (genre) => {
-		const currentGenres = [...selectedGenres];
-
-		const index = currentGenres.indexOf(genre);
-
-		if (index === -1) {
-			currentGenres.push(genre);
-		} else {
-			currentGenres.splice(index, 1);
-		}
-
-		setSelectedGenres(currentGenres);
-	};
-
-	const handleSortChange = (sortOption) => {
-		setSortBy(sortOption);
-	};
-
-	return (
-		<div className="flex flex-col min-h-screen">
-			<Header />
-
-			<main className="flex flex-col md:flex-row flex-grow">
-				<aside className="md:w-1/4 p-4 bg-gray-100 rounded shadow static md:sticky top-0 md:h-full mb-4 md:mb-0">
-					{genresLoading && <p>Genres Loading...</p>}
-					{genresError && <p>{genresError}</p>}
-					{genres && !genresLoading && (
-						<Filters
-							genres={genres}
-							selectedGenres={selectedGenres}
-							onGenreChange={handleGenreChange}
-							genresLoading={genresLoading}
-							genresError={genresError}
-						/>
-					)}
-				</aside>
-
-				<div className="md:w-3/4 p-4">
-					{moviesLoading && <p>Movies Loading...</p>}
-					{moviesError && <p>{moviesError}</p>}
-					{movies && !moviesLoading && (
-						<>
-							<div className="flex flex-row justify-between items-center mb-4">
-								<h1 className="text-2xl font-bold">
-									All Movies
-								</h1>
-								<SortOptions
-									sortBy={sortBy}
-									handleSortChange={handleSortChange}
-								/>
-							</div>
-							<DisplayMovies movies={movies} />
-						</>
-					)}
-				</div>
-			</main>
-
-			<Footer />
-		</div>
-	);
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex flex-col md:flex-row flex-grow">
+        <aside className="md:w-1/4 p-4 bg-gray-100 rounded shadow static md:sticky top-0 md:h-full mb-4 md:mb-0">
+          {genresLoading && <p>Genres Loading...</p>}
+          {genresError && <p>{genresError}</p>}
+          {genres && !genresLoading && <Filters genres={genres} selectedGenres={selectedGenres} onGenreChange={handleGenreChange} />}
+        </aside>
+        <div className="md:w-3/4 p-4">
+          {moviesLoading && <p>Movies Loading...</p>}
+          {moviesError && <p>{moviesError}</p>}
+          {movies && !moviesLoading && (
+            <>
+              <div className="flex flex-row justify-between items-center mb-4">
+                <h1 className="text-2xl font-bold">All Movies</h1>
+                <SortOptions sortBy={sortBy} handleSortChange={setSortBy} />
+              </div>
+              <DisplayMovies movies={movies} />
+            </>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
 };
 
 export default MoviesScreen;

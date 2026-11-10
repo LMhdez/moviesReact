@@ -1,15 +1,14 @@
 # Movies React
 
-Frontend application for exploring movies, viewing details and reviews, and maintaining a personal favourites list.
+A React application for discovering films, viewing metadata and maintaining a personal favourites list.
 
 ## Features
 
-- Home page with headline and recent reviews.
-- Movie catalogue with genre filters and sorting.
-- Movie detail pages with related movies and reviews.
-- Review submission.
-- Personal favourites list (stored in the current browser session).
-- Client-side routing with React Router.
+- Featured film and popular movie catalogue.
+- Genre filtering and sorting by relevance, release date or title.
+- Movie details, related titles, cast and directors.
+- Personal favourites stored in the current browser session.
+- Movie reviews saved locally in the current browser.
 
 ## Technology
 
@@ -20,28 +19,28 @@ Frontend application for exploring movies, viewing details and reviews, and main
 
 ## Deployment
 
-The frontend is published with GitHub Pages:
+Published with GitHub Pages: https://lmhdez.github.io/moviesReact/
 
-https://lmhdez.github.io/moviesReact/
+GitHub Actions installs dependencies, builds the Vite application, deploys `dist/` and checks the published frontend and metadata API.
 
-GitHub Actions runs the lint check and production build, then publishes the generated `dist/` directory. Vite and React Router are configured for the repository subpath. A Pages `404.html` fallback restores direct navigation to client-side routes.
+## Movie metadata source
 
-## Backend dependency
+The application uses Cinemeta, the public movie metadata service from the Stremio ecosystem:
 
-The frontend continues to use the existing Azure Functions API at:
+- Catalogue: `https://cinemeta-catalogs.strem.io/top/catalog/movie/top.json`
+- Individual metadata: `https://v3-cinemeta.strem.io/meta/movie/{imdb_id}.json`
 
-`https://moviesfunctionapp.azurewebsites.net/api`
+No API key or paid service is required. Cinemeta is an external service without a service-level guarantee; availability and response formats may change.
 
-GitHub Pages only hosts the static frontend; it does not replace or host this API. The API must remain available and allow browser requests from `https://lmhdez.github.io` through its CORS configuration. The review form also sends submissions to the existing `SubmitReview` endpoint.
+## Reviews and personal data
 
-No new Azure resources are created by the GitHub Pages deployment.
+There is no application backend. Reviews are saved in the visitor's browser using `localStorage`; they are not sent to a server, shared with other visitors or synchronised between devices. The review form no longer asks for an email address.
 
-## Requirements
-
-- Node.js 22 or a compatible supported version.
-- npm.
+Favourites are stored in the browser session.
 
 ## Local development
+
+Requires Node.js 22 or a compatible supported version.
 
 ```bash
 npm ci
@@ -56,4 +55,4 @@ npm run build
 npm run preview
 ```
 
-The preview command serves the production build locally. The production build uses the `/moviesReact/` base path required by GitHub Pages.
+The production build uses the `/moviesReact/` base path required by GitHub Pages.
