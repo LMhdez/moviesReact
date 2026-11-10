@@ -76,3 +76,30 @@ jobs:
             exit 1
           fi
           echo "Client-side route fallback: 404.html contains route restoration"
+      - name: Diagnose existing Azure Functions API (non-blocking)
+        continue-on-error: true
+        env:
+          API_BASE: https://moviesfunctionapp.azurewebsites.net/api
+          FRONTEND_ORIGIN: https://lmhdez.github.io
+        run: |
+          set -uo pipefail
+          headers="$(mktemp)"
+          trap 'rm -f "$headers"' EXIT
+          failed=0
+
+          for endpoint in GetHeadline GetMovies GetGenres GetReviews; do
+            status="$(curl --silent --show-error --max-time 20 --dump-header "$headers" --output /dev/null --write-out '%{http_code}' \
+              --header "Origin: $FRONTEND_ORIGIN" "$API_BASE/$endpoint" 2>/dev/null || printf '000')"
+            if [ "$status" = "200" ] && grep -Eiq '^access-control-allow-origin:[[:space:]]*(https://lmhdez\.github\.io|\*)' "$headers"; then
+              echo "$endpoint: HTTP 200; CORS allowed"
+            else
+              echo "$endpoint: HTTP $status or CORS not allowed"
+              failed=1
+            fi
+          done
+
+          if [ "$failed" -ne 0 ]; then
+            echo "Existing API is not fully healthy for the GitHub Pages frontend."
+            exit 1
+          fi
+          echo "Existing API endpoints passed the read-only smoke checks."
