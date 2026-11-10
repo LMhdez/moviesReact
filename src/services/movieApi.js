@@ -115,6 +115,7 @@ export const submitReview = (formData) => {
       createdAt: new Date().toISOString(),
     });
     localStorage.setItem(REVIEW_STORAGE_KEY, JSON.stringify(reviews));
+    window.dispatchEvent(new Event("movies-reviews-updated"));
     return true;
   } catch {
     return false;

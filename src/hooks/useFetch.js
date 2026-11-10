@@ -31,11 +31,12 @@ const useFetch = (resource) => {
   useEffect(() => {
     let active = true;
     const load = async () => {
-      setIsLoading(true);
-      setErrorMessage("");
       try {
         const result = await resolveResource(resource);
-        if (active) setData(result);
+        if (active) {
+          setData(result);
+          setErrorMessage("");
+        }
       } catch (error) {
         if (active) {
           setData(null);
@@ -45,8 +46,17 @@ const useFetch = (resource) => {
         if (active) setIsLoading(false);
       }
     };
+
+    setIsLoading(true);
     load();
-    return () => { active = false; };
+
+    const isReviewsResource = resource.split("?")[0] === "reviews";
+    if (isReviewsResource) window.addEventListener("movies-reviews-updated", load);
+
+    return () => {
+      active = false;
+      if (isReviewsResource) window.removeEventListener("movies-reviews-updated", load);
+    };
   }, [resource]);
 
   return [data, isLoading, errorMessage];
