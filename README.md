@@ -1,8 +1,40 @@
-# React + Vite
+# Movies React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação frontend para explorar filmes, consultar páginas de detalhe, ler avaliações e manter uma lista de favoritos.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Página inicial.
+- Catálogo de filmes.
+- Página de detalhe por identificador.
+- Página de avaliações.
+- Lista pessoal (`/wish-list`).
+- Página de recurso não encontrado.
+
+## Tecnologia
+
+- React 18
+- React Router 6
+- Vite
+- Tailwind CSS
+
+## Requisitos
+
+- Node.js e npm.
+
+## Desenvolvimento
+
+```bash
+npm install
+npm run dev
+```
+
+## Verificações e build
+
+```bash
+npm run lint
+npm run build
+npm run preview
+```
+
+O comando `preview` serve localmente o build de produção. A aplicação não declara backend próprio no `package.json`; confirma as integrações externas no código antes de assumir requisitos adicionais.
