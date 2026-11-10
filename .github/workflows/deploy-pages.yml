@@ -89,7 +89,7 @@ jobs:
 
           for endpoint in GetHeadline GetMovies GetGenres GetReviews; do
             status="$(curl --silent --show-error --max-time 20 --dump-header "$headers" --output /dev/null --write-out '%{http_code}' \
-              --header "Origin: $FRONTEND_ORIGIN" "$API_BASE/$endpoint" 2>/dev/null || printf '000')"
+              --header "Origin: $FRONTEND_ORIGIN" "$API_BASE/$endpoint" 2>/dev/null || true)"
             if [ "$status" = "200" ] && grep -Eiq '^access-control-allow-origin:[[:space:]]*(https://lmhdez\.github\.io|\*)' "$headers"; then
               echo "$endpoint: HTTP 200; CORS allowed"
             else
@@ -103,3 +103,28 @@ jobs:
             exit 1
           fi
           echo "Existing API endpoints passed the read-only smoke checks."
+      - name: Check free Cinemeta movie metadata API (candidate)
+        continue-on-error: true
+        env:
+          CATALOG_URL: https://cinemeta-catalogs.strem.io/top/catalog/movie/top.json
+          META_URL: https://v3-cinemeta.strem.io/meta/movie/tt0111161.json
+          FRONTEND_ORIGIN: https://lmhdez.github.io
+        run: |
+          set -uo pipefail
+          for target in catalog metadata; do
+            if [ "$target" = "catalog" ]; then url="$CATALOG_URL"; else url="$META_URL"; fi
+            body="$(mktemp)"
+            headers="$(mktemp)"
+            status="$(curl --silent --show-error --max-time 25 --dump-header "$headers" --output "$body" --write-out '%{http_code}' \
+              --header "Origin: $FRONTEND_ORIGIN" "$url" 2>/dev/null || true)"
+            if [ "$status" = "200" ] && grep -Eiq '^access-control-allow-origin:[[:space:]]*(https://lmhdez\.github\.io|\*)' "$headers"; then
+              if node -e 'const d=require(process.argv[1]); if(process.argv[2]==="catalog" ? !Array.isArray(d.metas) : !d.meta) process.exit(1)' "$body" "$target"; then
+                echo "Cinemeta $target endpoint: HTTP 200; JSON shape and CORS passed"
+              else
+                echo "Cinemeta $target endpoint: HTTP 200 but unexpected JSON shape"
+              fi
+            else
+              echo "Cinemeta $target endpoint: HTTP $status or CORS not allowed"
+            fi
+            rm -f "$body" "$headers"
+          done
