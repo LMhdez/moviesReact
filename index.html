@@ -5,6 +5,18 @@
     <link rel="icon" type="image/svg+xml" href="./underline.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>_underline</title>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const route = params.get("gh-pages-route");
+
+      if (route) {
+        const base = "/moviesReact";
+        const path = route.startsWith("/") ? route : `/${route}`;
+        const search = params.get("gh-pages-search") || "";
+        const hash = params.get("gh-pages-hash") || "";
+        window.history.replaceState(null, "", `${base}${path}${search}${hash}`);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
