@@ -6,7 +6,7 @@ const addFavorite = (movieId) => {
 		try {
 			sessionStorage.setItem("favorites", JSON.stringify(favorites));
 			return true;
-		} catch (error) {
+		} catch {
 			return false;
 		}
 	}
@@ -15,13 +15,12 @@ const addFavorite = (movieId) => {
 const removeFavorite = (movieId) => {
 	const favorites = JSON.parse(sessionStorage.getItem("favorites")) || [];
 
-	
 	if (isFavorite(movieId)) {
 		favorites.splice(favorites.indexOf(movieId), 1);
 		try {
 			sessionStorage.setItem("favorites", JSON.stringify(favorites));
 			return true;
-		} catch (error) {
+		} catch {
 			return false;
 		}
 	}
@@ -32,6 +31,4 @@ const isFavorite = (movieId) => {
 	return favorites.indexOf(movieId) > -1;
 };
 
-
-
-export { addFavorite, removeFavorite, isFavorite};
+export { addFavorite, removeFavorite, isFavorite };
